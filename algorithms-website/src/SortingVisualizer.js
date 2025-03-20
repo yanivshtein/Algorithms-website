@@ -8,6 +8,7 @@ const SortingVisualizer = () => {
   const jIndex = useRef(0);  // Track inner loop index
   const [isRunning, setIsRunning] = useState(false);  // If true, Bubble Sort runs automatically
   const isStop = useRef(false);  // If true, Bubble Sort runs automatically
+  const [isStopBtn, setIsStopBtn] = useState(false);
 
   // Generate new array
   // Function to generate a new random array with 10 elements
@@ -62,6 +63,8 @@ const SortingVisualizer = () => {
 
   // Step-by-step sorting
   const stepBubbleSort = async () => {
+    setIsRunning(true);
+    setIsStopBtn(true);
     let arr = [...array];
     let n = arr.length;
 
@@ -81,24 +84,14 @@ const SortingVisualizer = () => {
       jIndex.current = 0;
       iIndex.current += 1;
     }
-  };
+    setIsRunning(false);
+    setIsStopBtn(false);
+    };
   
   function stop(){
     isStop.current = true; // ✅ Immediately stop sorting
     setIsRunning(false);
   }
-
-  //function for waiting for the click
-  function waitForClick(buttonId) {
-    return new Promise((resolve) => {
-        const button = document.getElementById(buttonId);
-        const handleClick = () => {
-            button.removeEventListener("click", handleClick); // Clean up the event listener
-            resolve(); // Resolve the promise when clicked
-        };
-        button.addEventListener("click", handleClick);
-    });
-}
 
 async function highlight(arr, i, j) {
   setColors((prevColors) => {
@@ -157,10 +150,10 @@ async function swap(arr, i, j) {
       <button onClick={bubbleSort} disabled={isRunning}>Bubble Sort</button>
 
        {/* Button to stop the sorting algorithm */}
-       <button onClick={stop}>stop</button>
+       <button onClick={stop} disabled={isStopBtn}>stop</button>
 
       {/* Button to trigger the sorting algorithm */}
-      <button id = "continue" onClick={stepBubbleSort}>continue</button>
+      <button id = "continue" onClick={stepBubbleSort} disabled={isRunning}>continue</button>
 
       {/* Visualize the array as a series of bars */}
       <div style={{ display: "flex", gap: "5px", marginTop: "20px" }}>
