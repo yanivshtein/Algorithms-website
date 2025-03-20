@@ -1,0 +1,91 @@
+/* Container for the entire visualization */
+.visualizer-container {
+    text-align: center;
+    padding: 40px;
+    max-width: 1200px;
+    margin: auto;
+    background-color: #f4f7fa;
+    border-radius: 15px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Header */
+  h2 {
+    font-size: 28px;
+    color: #333;
+    margin-bottom: 20px;
+    font-family: 'Arial', sans-serif;
+    font-weight: 600;
+  }
+  
+  /* Button container */
+  .button-container {
+    margin-bottom: 30px;
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    flex-wrap: wrap;
+  }
+  
+  button {
+    padding: 12px 18px;
+    font-size: 16px;
+    border-radius: 10px;
+    border: none;
+    background-color: #007bff;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    font-family: 'Arial', sans-serif;
+  }
+  
+  button:hover {
+    background-color: #0056b3;
+  }
+  
+  button:disabled {
+    background-color: #b0c4de;
+    cursor: not-allowed;
+  }
+  
+  /* Styling the bars */
+  .bars-container {
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    height: 350px;
+    gap: 5px;
+    margin: 0 auto;
+    width: 80%;
+    max-width: 1000px;
+    background-color: #fff;
+    border-radius: 10px;
+    border: 2px solid #ddd;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .bar {
+    width: 35px;
+    color: #fff;
+    text-align: center;
+    transition: height 0.3s ease, background-color 0.3s ease;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 14px;
+    border-radius: 5px;
+  }
+  
+  .bar.yellow {
+    background-color: #f1c40f;  /* Yellow for highlighting */
+  }
+  
+  .bar.red {
+    background-color: #e74c3c;  /* Red when swapping */
+  }
+  
+  .bar.blue {
+    background-color: #3498db;  /* Default blue color */
+  }
+  

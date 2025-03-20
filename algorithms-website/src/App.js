@@ -1,15 +1,36 @@
 import React from "react";
-import SortingVisualizer from "./SortingVisualizer"; // Import the SortingVisualizer component
-import './App.css'; // Keep your CSS styles if needed
+import { BrowserRouter as Router, Routes, Route, NavLink } from "react-router-dom";
+import BubbleSortVisualizer from "./BubbleSortVisualizer";
+import QuickSortVisualizer from "./QuickSortVisualizer";
+import "./App.css"; // Import the updated styles
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <h1>Algorithm Visualizer</h1> {/* Add your own header */}
-        <SortingVisualizer /> {/* Render the SortingVisualizer component here */}
-      </header>
-    </div>
+    <Router>
+      <div className="app-container">
+        {/* Sidebar with animated glass effect */}
+        <nav className="sidebar">
+          <h2>Algorithm Visualizer</h2>
+          <NavLink to="/" className="nav-link" end>
+            Bubble Sort
+          </NavLink>
+          <NavLink to="/quicksort" className="nav-link">
+            Quick Sort
+          </NavLink>
+        </nav>
+
+        {/* Main content area */}
+        <div className="content">
+          <header className="app-header">Sorting Algorithm Simulator</header>
+
+          {/* Routes to different sorting visualizers */}
+          <Routes>
+            <Route path="/" element={<BubbleSortVisualizer />} />
+            <Route path="/quicksort" element={<QuickSortVisualizer />} />
+          </Routes>
+        </div>
+      </div>
+    </Router>
   );
 }
 
