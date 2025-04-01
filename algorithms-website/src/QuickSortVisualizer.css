@@ -1,0 +1,21 @@
+.array-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height:  150px;
+  gap: 5px;
+  margin: 0 auto;
+  width: 80%;
+  max-width: 1000px;
+  background-color: #d8d2d2;
+  border-radius: 10px;
+  border: 2px solid #ddd;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.bar {
+  display: flex; /* Enables flexbox */
+  align-items: center; /* Centers vertically */
+  justify-content: center; /* Centers horizontally */
+  text-align: center; /* Ensures text alignment */
+}
