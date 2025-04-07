@@ -2,6 +2,8 @@ import React from "react";
 import { BrowserRouter as Router, Routes, Route, NavLink } from "react-router-dom";
 import BubbleSortVisualizer from "./BubbleSortVisualizer";
 import QuickSortVisualizer from "./QuickSortVisualizer";
+import BFSVisualizer from "./BFSVisualizer";
+import DFSVisualizer from "./DFSVisualizer";
 import "./App.css"; // Import the updated styles
 
 function App() {
@@ -17,6 +19,12 @@ function App() {
           <NavLink to="/quicksort" className="nav-link">
             Quick Sort
           </NavLink>
+          <NavLink to="/bfs" className="nav-link">
+            BFS
+          </NavLink>
+          <NavLink to="/dfs" className="nav-link">
+            DFS
+          </NavLink>
         </nav>
 
         {/* Main content area */}
@@ -27,6 +35,8 @@ function App() {
           <Routes>
             <Route path="/" element={<BubbleSortVisualizer />} />
             <Route path="/quicksort" element={<QuickSortVisualizer />} />
+            <Route path="/bfs" element={<BFSVisualizer />} />
+            <Route path="/dfs" element={<DFSVisualizer />} />
           </Routes>
         </div>
       </div>
