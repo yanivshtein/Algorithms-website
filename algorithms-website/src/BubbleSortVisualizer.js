@@ -17,8 +17,6 @@ function BubbleSortVisualizer() {
   const isStop = useRef(false);  // True if sorting is manually stopped
   const [isStopBtn, setIsStopBtn] = useState(false);  // Controls the Stop button state
 
-  const [stopBtnText, setStopBtnText] = useState("Stop");
-
   // Function to generate a new random array
   const generateArray = () => {
     setArray(Array.from({ length: 10 }, () => Math.floor(Math.random() * 100)));
@@ -91,14 +89,6 @@ function BubbleSortVisualizer() {
 
   // Function to stop the sorting animation
   function stop() {
-    if(!isStop.current) {
-      setIsStopBtn("Continue");
-      isStop.current = true;
-    } else {
-      setIsStopBtn("Stop");
-      isStop.current = true;
-      bubbleSort();
-    }
     isStop.current = true;
     setIsRunning(false);
   }
@@ -156,7 +146,7 @@ function BubbleSortVisualizer() {
       <div className="button-container">
         <button onClick={generateArray} disabled={isRunning}>Generate New Array</button>
         <button onClick={bubbleSort} disabled={isRunning}>Bubble Sort</button>
-        <button onClick={stop} disabled={isStopBtn}>{stopBtnText}</button>
+        <button onClick={stop} disabled={isStopBtn}>Stop</button>
         <button onClick={stepBubbleSort} disabled={isRunning}>Continue</button>
       </div>
 
