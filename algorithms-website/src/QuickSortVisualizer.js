@@ -5,15 +5,16 @@ function QuickSortVisualizer(){
   const [array, setArray] = useState([10,20,30,70,20,70,50,20,90,50]);
   //const [colorsMap,setColorsMap] = useState({});
   const [colors, setColors] = useState(new Array(10).fill("gray"));
-
-
+  const stopSort = useRef(false);
+  const [stopBtnTxt, setIsStopBtn] = useState("Stop");
 
   function generateArray() {
   const newArray = Array.from({ length: 10 }, () => Math.floor(Math.random() * 100)); // Declare newArray
   setArray(newArray); // Update the state
   //setColorsMap({}); // Reset colorsMap
   setColors(new Array(10).fill("gray")); // Reset colors
- 
+  setIsStopBtn("Stop");
+  stopSort.current = false;
 }
 
 const quickSort = async (arr, left, right) => {
@@ -67,6 +68,7 @@ const partition = async (arr, left, right) => {
       }
       return newColors;
     });
+    await wait();
       if (arr[k] < pivot) leftArr.push(arr[k]);
       else if (arr[k] === pivot) middleArr.push(arr[k]);
       else rightArr.push(arr[k]);
@@ -114,7 +116,22 @@ const partition = async (arr, left, right) => {
   return [pivotStart, pivotEnd];
 };
 
-  
+async function wait(){
+  while(stopSort.current){
+    await new Promise((resolve) => setTimeout(resolve, 100)); // Wait for 100ms
+  }
+}  
+
+function stop(){
+  if(stopSort.current){
+    setIsStopBtn("Stop");
+    stopSort.current = false;
+  }else{
+    setIsStopBtn("Continue");
+    stopSort.current = true;
+  }
+}
+
   // async function rearrangeArray(arr, left, right, leftArr, rightArr, middleArr, pivot) {
   
 
@@ -186,10 +203,6 @@ const partition = async (arr, left, right) => {
   // , [colors]);
   
 
-  function stop(){
-
-  }
-
   function stepQuickSort(){
 
   }
@@ -200,7 +213,7 @@ const partition = async (arr, left, right) => {
       <div className="button-container">
         <button onClick={generateArray} >Generate new Array</button>
         <button onClick={() => quickSort([...array],0,array.length-1)} >Quick Sort</button>
-        {/* <button onClick={stop} disabled={isStopBtn}>stop</button> */}
+        { <button id="stopBtn" onClick={stop} >{stopBtnTxt}</button> }
         {/* <button onClick={stepQuickSort} disabled={isRunning}>Continue</button> */}
       </div>
 
