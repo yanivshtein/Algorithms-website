@@ -6,6 +6,7 @@ import BFSVisualizer from "./BFSVisualizer";
 import DFSVisualizer from "./DFSVisualizer";
 import "./App.css"; // Import the updated styles
 
+
 function App() {
   return (
     <Router>
