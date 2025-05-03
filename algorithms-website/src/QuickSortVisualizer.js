@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 import "./QuickSortVisualizer.css";  // Import the CSS file
 function QuickSortVisualizer(){
 
@@ -7,14 +7,22 @@ function QuickSortVisualizer(){
   const [colors, setColors] = useState(new Array(10).fill("gray"));
   const stopSort = useRef(false);
   const [stopBtnTxt, setIsStopBtn] = useState("Stop");
-
+  const [isRunning, setIsRunning] = useState(false); // True if sorting is in progress
+  const [generateBtnRef,setGenerateBtnRef] = useState(false);
+  const resetGenerateBtnRef = useRef(false);
+  const quickSortFlag = useRef(false);
+  
+  
   function generateArray() {
+  resetGenerateBtnRef.current = true;
   const newArray = Array.from({ length: 10 }, () => Math.floor(Math.random() * 100)); // Declare newArray
   setArray(newArray); // Update the state
   //setColorsMap({}); // Reset colorsMap
   setColors(new Array(10).fill("gray")); // Reset colors
   setIsStopBtn("Stop");
   stopSort.current = false;
+  setIsRunning(false); // Reset isRunning state
+  quickSortFlag.current = false;
 }
 
 const quickSort = async (arr, left, right) => {
@@ -39,7 +47,9 @@ const quickSort = async (arr, left, right) => {
 
   // Partition and get pivot indices
   let [pivotStart, pivotEnd] = await partition(arr, left, right);
-
+  if(resetGenerateBtnRef.current){
+    return;
+  }
   // Recursively sort left and right partitions
   await quickSort(arr, left, pivotStart - 1);
   await quickSort(arr, pivotEnd + 1, right);
@@ -47,6 +57,10 @@ const quickSort = async (arr, left, right) => {
 
 const partition = async (arr, left, right) => {
   let pivot = arr[right]; // Choose pivot
+  await wait();
+  if(resetGenerateBtnRef.current){
+    return [0,0];
+  }
   setColors((prev)=>{
     let newColors = [...prev];
     newColors[right] = "orange"; // Highlight pivot
@@ -69,6 +83,9 @@ const partition = async (arr, left, right) => {
       return newColors;
     });
     await wait();
+    if(resetGenerateBtnRef.current){
+      return [0,0];
+    }
       if (arr[k] < pivot) leftArr.push(arr[k]);
       else if (arr[k] === pivot) middleArr.push(arr[k]);
       else rightArr.push(arr[k]);
@@ -83,7 +100,10 @@ const partition = async (arr, left, right) => {
 
   // Update state to trigger re-render
   setArray([...arr]);
-
+  await wait();
+  if(resetGenerateBtnRef.current){
+    return [0,0];
+  }
   for (let k = left; k <= right; k++) {
     setColors((prev) => {
       let newColors = [ ...prev ];
@@ -107,6 +127,10 @@ const partition = async (arr, left, right) => {
       }
       return newColors;
     });
+    await wait();
+    if(resetGenerateBtnRef.current){
+      return [0,0];
+    }
   }
   await new Promise((resolve) => setTimeout(resolve, 1000));
   let pivotStart = left + leftArr.length;
@@ -119,6 +143,9 @@ const partition = async (arr, left, right) => {
 async function wait(){
   while(stopSort.current){
     await new Promise((resolve) => setTimeout(resolve, 100)); // Wait for 100ms
+    if(generateBtnRef.current){
+      return;
+    }
   }
 }  
 
@@ -126,93 +153,36 @@ function stop(){
   if(stopSort.current){
     setIsStopBtn("Stop");
     stopSort.current = false;
+    setGenerateBtnRef(true);
   }else{
     setIsStopBtn("Continue");
     stopSort.current = true;
+    setGenerateBtnRef(false);
+    setIsRunning(false);
   }
 }
-
-  // async function rearrangeArray(arr, left, right, leftArr, rightArr, middleArr, pivot) {
   
-
-  //   //let newColors = [...colorsRef.current]; // Copy current colors
-  
-  //   for (let i = left; i < right + 1; i++) {
-  //     // if (arr[i] > pivot) {
-  //     //   newColors[i] = "red";
-  //     // } else if (arr[i] < pivot) {
-  //     //   newColors[i] = "green";
-  //     // } else {
-  //     //   newColors[i] = "blue";
-  //     // }
-      
-  //     if (arr[i] > pivot) {
-  //       setColors((prevColors) => {
-  //         prevColors[i] = "red";
-  //         return [...prevColors];
-  //     }); // Update colors
-  //     } else if (arr[i] < pivot) {
-  //       setColors((prevColors) => {
-  //         prevColors[i] = "green";
-  //         return [...prevColors];
-  //     }); // Update colors
-  //     } else {
-  //       setColors((prevColors) => {
-  //         prevColors[i] = "blue";
-  //         return [...prevColors];
-  //     }); // Update colors
-  //     }
-  //   //   setColors((prevColors) => {
-  //   //     let newColorsI = [...prevColors];
-  //   //     newColorsI[i] = newColors[i];
-  //   //     colorsRef.current = newColorsI; // Update the ref
-  //   //     return newColorsI;
-  //   // }); // Update colors
-  //     //console.log("Updated colors:", newColors);
-      
-  //     await new Promise((resolve) => setTimeout(resolve, 1000)); // Delay for visualization
-  //     console.log("colors:", colors);
-  //   }
-  
-  //   // Update array order
-  //   const newArray = [...leftArr, ...middleArr, ...rightArr];
-  //   setArray(newArray);
-  //   //arrayRef.current = newArray; // Update the ref
-    
-  //   // // Reorder colors based on the new array order
-  //   // const newColorsOrdered = newArray.map(value => {
-  //   //   let originalIndex = arr.indexOf(value); // Find original index of the value
-  //   //   return newColors[originalIndex]; // Assign its previous color
-  //   // });
-
-  //   setColors((prevColors) => {
-     
-  //   });
-  
-  
-  //   setColors(newColorsOrdered); // Apply reordered colors
-  //   //colorsRef.current = newColorsOrdered; // Update the ref
-  //   console.log("Reordered colors:", newColorsOrdered);
-  //   await new Promise((resolve) => setTimeout(resolve, 100)); // Delay for visualization
-  //   return newArray;
-  // }
-  
-  // useEffect(() => {
-  //   console.log(colors); // Generate array on component mount
-  // }
-  // , [colors]);
-  
-
-  function stepQuickSort(){
-
-  }
-
   return(
     <div className="visualizer-container">
       <h2>QuickSort Visualization</h2>
       <div className="button-container">
-        <button onClick={generateArray} >Generate new Array</button>
-        <button onClick={() => quickSort([...array],0,array.length-1)} >Quick Sort</button>
+        <button onClick={() => {
+          generateArray();
+        }
+          } disabled = {generateBtnRef} >Generate new Array</button>
+        <button onClick={() =>{
+          resetGenerateBtnRef.current = false; // Reset generate button state
+          setGenerateBtnRef(true);
+          setIsRunning(true);
+          if(!quickSortFlag.current){
+            quickSortFlag.current = true;
+            quickSort([...array],0,array.length-1)
+          }else{
+            stop();
+          }
+          }
+        }
+            disabled = {isRunning} >Quick Sort</button>
         { <button id="stopBtn" onClick={stop} >{stopBtnTxt}</button> }
         {/* <button onClick={stepQuickSort} disabled={isRunning}>Continue</button> */}
       </div>
